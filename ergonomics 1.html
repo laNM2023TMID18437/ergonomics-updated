@@ -1,0 +1,385 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ergonomics MCQ Practice</title>
+<style>
+  :root{--bg:#f6f7fb;--card:#fff;--text:#1d2433;--muted:#6b7280;--accent:#4f46e5;--ok:#16a34a;--bad:#dc2626;--line:#e5e7eb}
+  @media (prefers-color-scheme:dark){:root{--bg:#0f1220;--card:#181c2e;--text:#e8eaf3;--muted:#9aa3b8;--line:#2a3050}}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--text)}
+  header{padding:16px;text-align:center}
+  h1{margin:0;font-size:1.3rem}
+  nav{display:flex;gap:8px;justify-content:center;padding:0 12px 12px;flex-wrap:wrap}
+  nav button{border:1px solid var(--line);background:var(--card);color:var(--text);padding:8px 14px;border-radius:999px;cursor:pointer;font-size:.95rem}
+  nav button.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+  main{max-width:720px;margin:0 auto;padding:0 12px 40px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:12px}
+  .muted{color:var(--muted);font-size:.9rem}
+  .tag{display:inline-block;font-size:.75rem;color:var(--accent);margin-bottom:6px}
+  .opt{display:block;width:100%;text-align:left;margin:8px 0;padding:12px;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--text);cursor:pointer;font-size:1rem}
+  .opt:hover:not(:disabled){border-color:var(--accent)}
+  .opt:disabled{color:var(--text);opacity:1}
+  .opt.correct{border-color:var(--ok);background:rgba(22,163,74,.15)}
+  .opt.wrong{border-color:var(--bad);background:rgba(220,38,38,.15)}
+  .btn{background:var(--accent);color:#fff;border:0;padding:10px 16px;border-radius:10px;cursor:pointer;font-size:1rem}
+  .btn.ghost{background:transparent;color:var(--text);border:1px solid var(--line)}
+  .btn.danger{background:var(--bad)}
+  .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+  input,textarea,select{width:100%;padding:10px;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--text);font:inherit;margin:4px 0 10px}
+  .stats{display:flex;gap:16px;justify-content:space-between}
+  .stats div{text-align:center;flex:1}
+  .stats b{display:block;font-size:1.4rem}
+  .expl{margin-top:10px;padding:10px;border-radius:8px;background:var(--bg);font-size:.95rem}
+  .item{display:flex;justify-content:space-between;gap:8px;align-items:flex-start;padding:10px 0;border-bottom:1px solid var(--line)}
+  .item:last-child{border-bottom:0}
+  .hidden{display:none}
+</style>
+</head>
+<body>
+<header><h1>Ergonomics MCQ Practice</h1></header>
+<nav>
+  <button data-tab="home" class="active">Home</button>
+  <button data-tab="weak">Weak list</button>
+  <button data-tab="manage">Add / Manage</button>
+</nav>
+<main>
+  <section id="home"></section>
+  <section id="weak" class="hidden"></section>
+  <section id="manage" class="hidden"></section>
+</main>
+
+<script>
+// ================= BUILT-IN QUESTIONS (NPTEL Ergonomics Research Techniques, Assignments 1-11) =================
+// Each question: [question, [options A-D], correctIndex (0=A,1=B,2=C,3=D), optional reference]
+const BUILTIN = [
+["Assignment 1", [
+ ["Systems ergonomics view focusing on the optimization of the interactions between the human body and the computer or a machine can come under?",["Product ergonomics","Production ergonomics","Macro ergonomics","Micro ergonomics"],3],
+ ["Identify the option that is not the role of an ergonomist.",["Profit generation","Human capability and limitations","Environmental factors","None of these"],0],
+ ["Ergonomics tools and techniques, which are used for understanding a system, will come under which division?",["Analytical","Evaluative","Analysis and evaluation","None of these"],0],
+ ["Which of the following is not a main assessment method used in studying musculoskeletal injuries?",["PLIBEL","RULA","NIOSH discomfort survey","Dutch Musculoskeletal Survey (DMS)"],1],
+ ["In PLIBEL, the assessments are focused on which factors?",["Tasks that are most frequently performed in working hours","Tasks that can be observed as stressful to the musculoskeletal system","Tasks that are frequently performed and observed to be stressful","None of these"],2],
+ ["In a Musculoskeletal discomfort NIOSH assessment process, the rating of the problem is rated on.",["Duration","Frequency","Intensity","All of these"],3],
+ ["The Lifestyle of the worker is not considered in the Dutch Musculoskeletal Questionnaire (DMQ)",["True","False"],1],
+ ["The Dutch Musculoskeletal Questionnaire (DMQ) has to be directly filled by the subject (worker)",["True","False"],0],
+ ["The Dutch Musculoskeletal Questionnaire (DMQ) can provide",["Broad overview of the risk factors","Solution of the problems identified","Both overview and solutions","None of these"],0],
+ ["Optimization of the relationships in the system \"Man – Technology – Organization\" can come under?",["Product ergonomics","Production ergonomics","Macro ergonomics","Micro ergonomics"],2]
+]],
+["Assignment 2", [
+ ["In the Job Strain Index (JSI), what body parts are under consideration for the assessment process?",["Hand, wrist, and elbow","Upper body","Entire body","None of these"],0],
+ ["In the Job Strain Index (JSI), the left and right sides can be assessed independently.",["True","False"],0],
+ ["What are the elements that are not considered for calculating JSI score?",["Duration of the task","Hand/wrist posture","Duration of exertion","None of these"],3],
+ ["Which factors are considered when rating the Hand/wrist Posture (HP) when calculating the JSI score?",["Wrist extension and flexion","Ulnar deviation","Both wrist movements and ulnar deviation","None of these"],2],
+ ["There are a limited number of postures that are considered in the OWAS posture assessment.",["True","False"],0],
+ ["What are the factors that are not considered in OWAS posture assessment?",["Duration of posture","Elbow and wrist posture","Load lifted","Both duration and elbow/wrist posture"],3],
+ ["RULA assessment can be performed when the worker is.",["Standing without moving about","Seated","Both static standing and seating","None of these"],2],
+ ["Musculoskeletal load on the present and the modified workstation design can be compared with the help of RULA",["True","False"],0],
+ ["What is the total number of steps present in RULA analysis?",["14","15","16","None of these"],1],
+ ["What is the total number of steps present in REBA analysis?",["12","13","14","None of these"],1]
+]],
+["Assignment 3", [
+ ["What are the assessments that are not carried out using MAC?",["Carrying operation","Lifting operation","Team handling operation","None of these"],3],
+ ["The use of MAC is not appropriate for?",["Carrying tasks","Manual pulling and pushing operations","Both carrying and manual pulling/pushing","None of these"],1],
+ ["Which of the following risk factors are not rated under the lifting operations in the MAC?",["Carry distance","Load weight/frequency","Grip on the load","None of these"],0],
+ ["Which of the following risk factors are rated under the carrying operations in the MAC?",["Vertical lift zones","Load weight/frequency","Co-ordination","None of these"],1],
+ ["In MAC, the risk factors related to communication, co-ordination, and control are not rated in?",["Carrying operations","Lifting operations","Team handling operations","Both lifting and carrying operations"],3],
+ ["In MAC, \"P = PURPLE\" is used to represent which level of risk?",["Low","Medium","High","Unacceptable"],3],
+ ["What all ways of manipulating load can be considered as manual handling?",["Lifting and lowering","Pushing and pulling","Moving and carrying","All of these"],3],
+ ["When carrying a load, the risk can be minimized when the load is held against the body.",["True","False"],0],
+ ["What is the acceptable range of weight that can be handled by men in seating posture",["4","5","6","None of these"],1],
+ ["What are the various aspects considered in the Quick Exposure Checklist (QEC)?",["Back","Stress","Vibration","All of these"],3]
+]],
+["Assignment 4", [
+ ["The position of the body when the hands are directly in front of the body and there is minimal twisting at the legs, torso, or shoulders can be termed as?",["Neutral body position","Natural body position","Active body position","None of these"],0],
+ ["In the NIOSH Lifting equation, the absolute value of the difference between the vertical height at the destination and origin of the lift can be termed as?",["Vertical lift","Vertical travel distance","Horizontal lift","None of these"],1],
+ ["In the NIOSH Lifting equation, the Lifting task can be defined as the act of mechanically grasping an object of definable size and mass with two hands and vertically moving the object with mechanical assistance.",["True","False"],1],
+ ["The distance of the hands away from the mid-point between the ankles, is called as?",["Horizontal location","Vertical location","Both horizontal and vertical","None of these"],0],
+ ["In the NIOSH Lifting equation, the distance of the hands above the floor is called?",["Horizontal location","Vertical location","Both horizontal and vertical","None of these"],1],
+ ["_______ is defined for a specific set of task conditions as the weight of the load that nearly all healthy workers could perform over a substantial period of time without an increased risk of developing lifting-related low back pain.",["Recommended Weight Limit (RWL)","Lifting Index (LI)","NIOSH","None of these"],0],
+ ["A relative estimate of the level of physical stress associated with a particular manual lifting task is given by?",["Recommended Weight Limit (RWL)","Lifting Index (LI)","NIOSH","None of these"],1],
+ ["The Rodgers muscle fatigue analysis can be used for evaluating production tasks having fewer than 12 to 15 repetitions per minute with the same muscle groups.",["True","False"],0],
+ ["In the Borg RPE scale, the correlation between the scale and the heart rate can be represented as?",["Heart rate = 10 x Scale value","Scale value = 10 x heart rate","Heart rate = 100 x Scale value","Heart rate = 0.1 x Scale value"],0],
+ ["In Rodgers muscle fatigue analysis, a category of _____ for Effort level, Continuous effort duration, or Frequency is automatically Very High (VH).",["1","2","3","4"],3]
+]],
+["Assignment 5", [
+ ["Snooks table lacks sensitivity to the bending and twisting motions that are often associated with the onset of low back pain.",["True","False"],0],
+ ["Which of the following kinds of tasks are not addressed in the Snooks table?",["Lifting","Carrying","Pushing","None of these"],3],
+ ["The Lumbar Motion Monitor can be used to measure.",["Instantaneous position of spine","Pelvis location with respect to spine","Velocity and acceleration of the spine","All of these"],3],
+ ["The Lower Back Pain (LBP) risk model will also help in assessing the potential risk of injuries to other body parts like the wrist and knee.",["True","False"],1],
+ ["Which of the trunk motion parameters is measured in the Lumbar Motion Monitor?",["Maximum sagittal flexion position","Maximum lateral velocity","Average twisting velocity","All of these"],3],
+ ["Which of the following body parts are considered while identifying the Posture factor (Pf) in OCRA analysis?",["Elbow and wrist","Shoulder","Hand","All of these"],3],
+ ["Borg 10-category scale is needed in OCRA.",["True","False"],0],
+ ["What is the minimum duration of the task that is performed in a total day so that the HARM can be applied?",["10 minutes","1 minute","10 hours","1 hour"],3],
+ ["All hand and arm tasks, including computer work, can be assessed through the HARM tool.",["True","False"],1],
+ ["HARM can be applicable on tasks that involve one handed force exertion of less than ___kg.",["3","5","6","8"],2]
+]],
+["Assignment 6", [
+ ["What are the additional factors that are considered in the ART tool?",["Work pace","Brakes","Hand Grip","Both work pace and brakes"],3],
+ ["What are the factors that are not considered in Stage C: Awkward postures of ART tool?",["Hand/finger grip","Wrist posture","Back posture","None of these"],3],
+ ["What are the factors that are considered in Stage A: Frequency and repetition of movements of ART tool?",["Arm movements","Repetition","Both arm movement and repetition","Hand/finger grip"],2],
+ ["The RAPP tool can be used for assessing the lifting task?",["True","False"],1],
+ ["Which of the following factors are considered in the RAPP tool?",["Floor surface","Condition of the equipment","Hand grip","All of these"],3],
+ ["The MAPO tool was initially developed for addressing which fields?",["Industrial workers","Hospital and nursing home","Both industry and hospital","None of these"],1],
+ ["Which of the following factors are not considered in the MAPO tool?",["Training factor","Minor aids factor","Environmental factor","Co-ordination factor"],3],
+ ["What are the various parts of the data sheet that are required to calculate the MAPO index?",["Interviews","On-site inspections","Both interviews and on-site inspections","None of these"],2],
+ ["Training factors are specifically considered in the MAPO tool.",["True","False"],0],
+ ["Which of the following can be considered as the Minor Aid Factors (AF) while using the MAPO tool?",["Wheelchair","Sliding sheet","Bed","None of these"],1]
+]],
+["Assignment 7 · Intro & general analysis methods", [
+ ["How is reliability evaluated and checked when using observational techniques?",["The interview is conducted with interviewee","Recording of two observers are compared","Transcription is cross checked with observers","The questionnaire is prepared to compare"],1,"Lecture 24"],
+ ["Which item among the following is not required to carry out a verbal protocol procedure?",["Spreadsheet package","Audio or video recording","Software based video player","Pen and paper"],3,"Lecture 24"],
+ ["The total number of available methods under general analysis methods is:",["7","8","5","6"],2,"Lecture 23"],
+ ["The interview process does not create demand characteristics and never produces misleading findings.",["True","False"],1,"Lecture 24"],
+ ["Critical decision methods are primarily classified as a technique for:",["Cognitive task analysis","Error analysis","General analysis of cognition","Workload and situation analysis"],0,"Lecture 23"],
+ ["In the focus group technique, claims analysis refers to:",["The interviewees feedback to develop a set of usage scenarios","None of these","Introduction to interviewees to alternative product concept","The interviewees feedback to identify the features of these products about significance"],3,"Lecture 24"],
+ ["Observational techniques are divided into three distinct categories.",["False","True"],1,"Lecture 24"],
+ ["How many distinct types of interviews are carried out for general analysis?",["3","5","4","6"],0,"Lecture 24"],
+ ["The focus group method is commonly referred to as the 'group interview' technique.",["True","False"],0,"Lecture 25"],
+ ["Which of the following represents the 5th stage of the verbal protocol procedure?",["Transcription","Encoding","Device scenario","Recording"],1,"Lecture 24"]
+]],
+["Assignment 8 · Cognitive task analysis", [
+ ["In Hierarchical Task Analysis (HTA), signals indicating the achievement of a goal are designated as:",["Action","Input","Feedback","Plan"],2,"Lecture 26"],
+ ["Which approaches and aids are included within the allocation of functions method?",["Hypothetical deductive model","Computational aids","Psychometric approaches","All of these"],3,"Lecture 27"],
+ ["Cognitive task analysis methods describe task strategies and required knowledge alongside human performance and error.",["True","False"],1,"Lecture 26"],
+ ["Applying the allocation of function method in a large-scale system is considered inexpensive.",["False","True"],0,"Lecture 28"],
+ ["What constitutes the 4th stage in the Hierarchical Task Analysis methodology?",["Identification of the source for task information","Acquiring data and draft decomposition table or diagram","Determination of task goals and performance criteria","Rechecking the validity of decomposition with stakeholders"],1,"Lecture 27"],
+ ["Which stage listed below is not included in cognitive task analysis methods?",["Background preparation","Elicitation of knowledge","Situation awareness representation","Knowledge representation"],2,"Lecture 26"],
+ ["What is executed in the 3rd step of the Critical Decision Method?",["Probe with what-if queries to elicit potential expert/novice differences","Deepen strategies for managing decision points embedded in the timeline","Create a detail incident timeline that shows the sequence of events","Identification of a complex potential incident to elicit discoveries about cognitive phenomena"],1,"Lecture 29"],
+ ["Which type of HTA plan represents a straightforward linear sequence of operational steps?",["A conditional sequence","Unordered procedure","Routine procedure","Time shared procedure"],2,"Lecture 26"],
+ ["The cross-method adaptation synthesizes the Critical Decision Method with related techniques.",["True","False"],0,"Lecture 29"],
+ ["In step 3 of the allocation of function method, what does the abbreviation 'C-H' designate for alternative model analysis?",["Shared between human and computer where computer in control","Computer only","Human only","Shared between human and computer where human is in control"],0,"Lecture 28"]
+]],
+["Assignment 9 · Error analysis", [
+ ["The approximate training time required to learn the SHERPA technique is:",["4 hours","6 hours","3 hours","5 hours"],2,"Lecture 30"],
+ ["Who was the original developer of the Systematic Human Error Reduction and Prediction Approach (SHERPA)?",["Stanton","Embrey","Williams","Baber"],1,"Lecture 30"],
+ ["An advantage of the TAFEI method is its structured and comprehensive procedural framework.",["False","True"],1,"Lecture 31"],
+ ["SHERPA technique explicitly models the cognitive mechanisms underlying human errors.",["False","True"],0,"Lecture 30"],
+ ["Which module of SHERPA is designed to assist analysts in choosing suitable error reduction strategies?",["Second module","Fourth module","First module","Third module"],3,"Lecture 30"],
+ ["The Task Analysis For Error Identification (TAFEI) framework was originally proposed by:",["Williams and Bridger","Stanton and Baber","Joseph and Will","None of these"],1,"Lecture 31"],
+ ["What is the fourth step involved in applying the SHERPA technique?",["Human error identification","Hierarchical task analysis","Consequence analysis","Critical analysis"],2,"Lecture 30"],
+ ["The standard training time needed for the TAFEI technique is approximately:",["3 hours","5 hours","4 hours","6 hours"],0,"Lecture 31"],
+ ["In Task Analysis For Error Identification (TAFEI), which component illustrates the behavior of the artifact?",["Hierarchical task analysis (HTA)","Transition Matrix","State-Space Diagram","None of these"],1,"Lecture 31 (answer key as given in the assignment solution)"],
+ ["Which of the following tools is specifically needed when conducting a TAFEI analysis?",["Spread sheet","Audio and video recording","NASA TLX software","Pen and paper"],3,"Lecture 31"]
+]],
+["Assignment 10 · Workload & situation analysis", [
+ ["Which dimension in the NASA-TLX assessment measures how hard an individual works to maintain performance levels?",["Physical demand","Performance","Effort","Frustration level"],2,"Lecture 32"],
+ ["What is the 6th step in the Critical Path Analysis technique?",["Calculate forward pass","Calculate backward pass","Assign times to the tasks","Define the task"],1,"Lecture 34"],
+ ["Mental workload is defined as a single-dimensional attribute of task demands.",["True","False"],1,"Lecture 32"],
+ ["Who developed the Situation Awareness Global Assessment Technique (SAGAT)?",["Endsley","Stanton","Wicken","Bush"],0,"Lecture 35"],
+ ["Electrodermal response used in mental workload quantification is categorized under:",["Subjective rating","Primary task performance measurement","Secondary task performance measurement","Physiological measurement"],3,"Lecture 32"],
+ ["Parallel performance in user task execution can be accommodated by Critical Path Analysis.",["True","False"],0,"Lecture 34"],
+ ["In NASA-TLX evaluation, each dimension is rated on a numerical scale of:",["1-30","1-10","1-20","1-5"],2,"Lecture 32"],
+ ["Projecting events and states into the near future corresponds to which level of Situation Awareness?",["Level I situation awareness","Level III situation awareness","Level II situation awareness","Level IV situation awareness"],1,"Lecture 35"],
+ ["The Multiple Resource Theory proposing distinct cognitive resource pools was introduced by:",["Wicken","William","Stanton","Bush"],0,"Lecture 33"],
+ ["In the 4D Multiple Resource Model, spatial and verbal speaking are categorized under which dimension?",["Perceptual","Visual","Processing","Motor"],2,"Lecture 33"]
+]],
+["Assignment 11 · Mental workload; indirect methods", [
+ ["In an evoked EEG configuration, presenting human faces in visual stimuli triggers which Event-Related Potential (ERP)?",["P100","N170","P300","N100"],1,"Lecture 36"],
+ ["What is the frequency band of Alpha (α) waves during free-running EEG recording?",["Between 8 to 13 Hz","Less than 4 Hz","Between 4 to 8 Hz","Over 30 Hz"],0,"Lecture 36"],
+ ["Which eye-tracking methodology places surface sensors around the eyes to record potential differences during ocular movement?",["Scleral search coil","Infrared oculography","Video oculography","Electro oculography"],3,"Lecture 37"],
+ ["Ear-EEG is considered an example of:",["Ambulatory EEG","Beyond wearable EEG","Research lab EEG","Wearable EEG"],1,"Lecture 36"],
+ ["Which eye movement metric refers to a spatial cluster formed by successive gaze fixations?",["Fixation","Smooth pursuit","Heat maps","Scan path"],0,"Lecture 37"],
+ ["Which EEG electrode category comes in both disposable and reusable configurations?",["Active electrode","Dry electrode","Passive wet electrode","Hybrid electrode"],2,"Lecture 36"],
+ ["The scan path metric is designed to measure the area of a stimulus that received maximum attention.",["True","False"],1,"Lecture 37"],
+ ["How many total recording electrodes are integrated into the EPOC Emotiv neuroheadset?",["12","8","18","16"],3,"Lecture 36"],
+ ["A visual region that attracts noticeably more ocular focus and fixation than other zones is termed an:",["Area of interest","Fixation","Saccade","Regression"],0,"Lecture 37"],
+ ["Which eye-tracking technique is most widely utilized in commercial applications?",["Electro oculography","Video oculography","Scleral search coil","Infrared oculography"],1,"Lecture 37"]
+]]
+];
+
+function builtinList(){
+  const out=[];
+  BUILTIN.forEach(([tag,list],ai)=>list.forEach(([q,options,answer,ref],qi)=>{
+    out.push({id:"a"+(ai+1)+"q"+(qi+1),tag,q,options,answer,explanation:ref?("Reference: NPTEL "+ref):""});
+  }));
+  return out;
+}
+
+// ---------- Storage ----------
+const KEY_Q="ergo_mcq_questions_v2", KEY_W="ergo_mcq_weak_v2", KEY_S="ergo_mcq_stats_v2", KEY_D="ergo_mcq_done_v2";
+function load(k,def){try{const v=localStorage.getItem(k);return v?JSON.parse(v):def}catch(e){return def}}
+function save(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
+let questions=load(KEY_Q,null);
+if(!questions||!questions.length){questions=builtinList();save(KEY_Q,questions)}
+let weak=load(KEY_W,[]);
+let stats=load(KEY_S,{answered:0,correct:0});
+let done=load(KEY_D,[]); // ids already answered on Home in the current round (saved, so reloads don't repeat them)
+
+const $=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const uid=()=>"u"+Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+const tagsList=()=>[...new Set(questions.map(q=>q.tag||"Custom"))];
+
+// ---------- Tabs ----------
+document.querySelectorAll("nav button").forEach(b=>b.onclick=()=>show(b.dataset.tab));
+function show(tab){
+  document.querySelectorAll("nav button").forEach(b=>b.classList.toggle("active",b.dataset.tab===tab));
+  ["home","weak","manage"].forEach(t=>$(t).classList.toggle("hidden",t!==tab));
+  if(tab==="home")renderQuiz("home");
+  if(tab==="weak")renderQuiz("weak");
+  if(tab==="manage")renderManage();
+}
+
+// ---------- Quiz ----------
+let filter="ALL";
+const state={home:{cur:null,done:false,queue:[]},weak:{cur:null,done:false,queue:[]}};
+function pool(mode){
+  let p=mode==="weak"?questions.filter(q=>weak.includes(q.id)):questions.filter(q=>!done.includes(q.id));
+  if(filter!=="ALL")p=p.filter(q=>(q.tag||"Custom")===filter);
+  return p;
+}
+function scopeTotal(){
+  return questions.filter(q=>filter==="ALL"||(q.tag||"Custom")===filter);
+}
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function pick(mode){
+  const st=state[mode], p=pool(mode), ids=p.map(q=>q.id);
+  if(!p.length)return null;
+  st.queue=st.queue.filter(id=>ids.includes(id));
+  if(!st.queue.length)st.queue=shuffle(ids.slice()); // every question appears once per round
+  const id=st.queue.pop();
+  return p.find(q=>q.id===id);
+}
+function filterHTML(){
+  let h=`<select id="flt-${arguments[0]}"><option value="ALL">All assignments</option>`;
+  tagsList().forEach(t=>{h+=`<option value="${esc(t)}"${t===filter?" selected":""}>${esc(t)}</option>`});
+  return h+`</select>`;
+}
+function renderQuiz(mode){
+  const el=$(mode), st=state[mode];
+  const acc=stats.answered?Math.round(100*stats.correct/stats.answered):0;
+  let html="";
+  if(mode==="home"){
+    html+=`<div class="card stats"><div><b>${questions.length}</b><span class="muted">Questions</span></div>
+      <div><b>${stats.answered}</b><span class="muted">Answered</span></div>
+      <div><b>${acc}%</b><span class="muted">Accuracy</span></div>
+      <div><b>${weak.length}</b><span class="muted">Weak</span></div></div>`;
+  }else{
+    html+=`<div class="card"><b>Weak list</b><div class="muted">Questions you got wrong. Answer one correctly to remove it. (${weak.length} total)</div></div>`;
+  }
+  html+=`<div class="card" style="padding:8px 16px 0">${filterHTML(mode)}</div>`;
+  // never show an already-answered question again (e.g. after switching tabs)
+  if(!st.cur||st.done||!pool(mode).some(q=>q.id===st.cur.id)){st.cur=pick(mode);st.done=false}
+  const q=st.cur;
+  if(mode==="home"){
+    const tot=scopeTotal(), n=tot.filter(x=>done.includes(x.id)).length;
+    html+=`<div class="muted" style="margin:0 4px 8px">Progress: ${n} / ${tot.length} answered this round</div>`;
+  }
+  if(!q){
+    if(mode==="weak"){
+      html+=`<div class="card">Nothing in your weak list for this filter. 🎉</div>`;
+    }else if(questions.length&&scopeTotal().length){
+      html+=`<div class="card"><b>Round complete 🎉</b><div class="muted" style="margin:6px 0 12px">You have answered every question${filter==="ALL"?"":" in this group"}. Start a new round to go through them again.</div><button class="btn" id="restart">Start new round</button></div>`;
+    }else{
+      html+=`<div class="card">No questions here. Add some in the Add / Manage tab.</div>`;
+    }
+  }else{
+    html+=`<div class="card"><div class="tag">${esc(q.tag||"Custom")}</div><div style="font-weight:600;margin-bottom:6px">${esc(q.q)}</div><div id="opts-${mode}">`;
+    q.options.forEach((o,i)=>{html+=`<button class="opt" data-i="${i}">${String.fromCharCode(65+i)}. ${esc(o)}</button>`});
+    html+=`</div><div id="fb-${mode}"></div>
+      <div class="row" style="margin-top:12px"><button class="btn hidden" id="next-${mode}">Next</button>
+      <button class="btn ghost" id="skip-${mode}">Skip</button></div></div>`;
+  }
+  el.innerHTML=html;
+  $("flt-"+mode).onchange=e=>{filter=e.target.value;["home","weak"].forEach(m=>{state[m].cur=null;state[m].queue=[]});renderQuiz(mode)};
+  if(!q){
+    const rb=$("restart");
+    if(rb)rb.onclick=()=>{
+      const ids=scopeTotal().map(x=>x.id);
+      done=done.filter(id=>!ids.includes(id));save(KEY_D,done);
+      state.home.cur=null;state.home.queue=[];renderQuiz("home");
+    };
+    return;
+  }
+  el.querySelectorAll(".opt").forEach(b=>b.onclick=()=>answer(mode,+b.dataset.i));
+  const nxt=()=>{st.cur=pick(mode);st.done=false;renderQuiz(mode)};
+  $("next-"+mode).onclick=nxt;$("skip-"+mode).onclick=nxt;
+}
+function answer(mode,i){
+  const st=state[mode];if(st.done)return;st.done=true;
+  const q=st.cur, ok=i===q.answer;
+  stats.answered++;if(ok)stats.correct++;save(KEY_S,stats);
+  if(!ok&&!weak.includes(q.id))weak.push(q.id);
+  if(ok&&mode==="weak")weak=weak.filter(id=>id!==q.id);
+  save(KEY_W,weak);
+  if(mode==="home"&&!done.includes(q.id)){done.push(q.id);save(KEY_D,done)}
+  document.querySelectorAll(`#opts-${mode} .opt`).forEach((b,idx)=>{b.disabled=true;if(idx===q.answer)b.classList.add("correct");else if(idx===i)b.classList.add("wrong")});
+  $("fb-"+mode).innerHTML=`<div class="expl"><b>${ok?"Correct ✅":"Wrong ❌ — added to weak list"}</b>${ok?"":"<br>Correct answer: "+String.fromCharCode(65+q.answer)+". "+esc(q.options[q.answer])}${q.explanation?"<br>"+esc(q.explanation):""}</div>`;
+  $("next-"+mode).classList.remove("hidden");
+  $("skip-"+mode).classList.add("hidden");
+}
+
+// ---------- Add / Manage ----------
+function renderManage(){
+  const el=$("manage");
+  let html=`<div class="card"><b>Add a question</b>
+    <label class="muted">Group (e.g. Assignment 12)</label>
+    <input id="ntag" list="taglist" placeholder="Custom"><datalist id="taglist">${tagsList().map(t=>`<option value="${esc(t)}">`).join("")}</datalist>
+    <label class="muted">Question</label><textarea id="nq" rows="2"></textarea>
+    <label class="muted">Options (A–D)</label>
+    <input id="o0" placeholder="Option A"><input id="o1" placeholder="Option B">
+    <input id="o2" placeholder="Option C"><input id="o3" placeholder="Option D">
+    <label class="muted">Correct answer</label>
+    <select id="ans"><option value="0">A</option><option value="1">B</option><option value="2">C</option><option value="3">D</option></select>
+    <label class="muted">Explanation (optional)</label><textarea id="ex" rows="2"></textarea>
+    <button class="btn" id="add">Add question</button></div>
+
+    <div class="card"><b>Bulk import / export</b>
+    <div class="muted">JSON array: [{"tag":"Assignment 12","q":"...","options":["a","b","c","d"],"answer":0,"explanation":"..."}] (answer is 0-based)</div>
+    <textarea id="bulk" rows="5"></textarea>
+    <div class="row"><button class="btn" id="imp">Import (adds)</button>
+    <button class="btn ghost" id="exp">Export all</button>
+    <button class="btn ghost" id="rw">Reset weak list</button>
+    <button class="btn ghost" id="rs">Reset stats</button>
+    <button class="btn ghost" id="rst">Restore built-in questions</button>
+    <button class="btn danger" id="clr">Delete all</button></div>
+    <div id="msg" class="muted" style="margin-top:8px"></div></div>
+
+    <div class="card"><b>All questions (${questions.length})</b>`;
+  let last=null;
+  questions.forEach(q=>{
+    const t=q.tag||"Custom";
+    if(t!==last){html+=`<div class="tag" style="margin-top:10px">${esc(t)}</div>`;last=t}
+    html+=`<div class="item"><div>${esc(q.q)}<div class="muted">Answer: ${String.fromCharCode(65+q.answer)}</div></div>
+      <button class="btn ghost" data-del="${q.id}">Delete</button></div>`;
+  });
+  html+=`</div>`;
+  el.innerHTML=html;
+
+  $("add").onclick=()=>{
+    const text=$("nq").value.trim();
+    const opts=[0,1,2,3].map(i=>$("o"+i).value.trim()).filter(Boolean);
+    const a=+$("ans").value;
+    if(!text||opts.length<2||a>=opts.length){$("msg").textContent="Enter a question, at least 2 options, and a valid correct answer.";return}
+    questions.push({id:uid(),tag:$("ntag").value.trim()||"Custom",q:text,options:opts,answer:a,explanation:$("ex").value.trim()});
+    save(KEY_Q,questions);renderManage();
+  };
+  $("imp").onclick=()=>{
+    try{
+      const arr=JSON.parse($("bulk").value);
+      if(!Array.isArray(arr))throw 0;
+      let n=0;
+      arr.forEach(x=>{
+        if(x&&x.q&&Array.isArray(x.options)&&x.options.length>=2&&Number.isInteger(x.answer)&&x.answer>=0&&x.answer<x.options.length){
+          questions.push({id:uid(),tag:x.tag||"Custom",q:x.q,options:x.options,answer:x.answer,explanation:x.explanation||""});n++;
+        }
+      });
+      save(KEY_Q,questions);renderManage();$("msg").textContent=`Imported ${n} question(s).`;
+    }catch(e){$("msg").textContent="Invalid JSON. Check the format."}
+  };
+  $("exp").onclick=()=>{$("bulk").value=JSON.stringify(questions.map(({id,...r})=>r),null,2)};
+  $("rw").onclick=()=>{weak=[];save(KEY_W,weak);$("msg").textContent="Weak list cleared."};
+  $("rs").onclick=()=>{stats={answered:0,correct:0};save(KEY_S,stats);done=[];save(KEY_D,done);$("msg").textContent="Stats and round progress reset."};
+  $("rst").onclick=()=>{if(confirm("Replace everything with the 110 built-in questions? Your added questions will be removed.")){questions=builtinList();weak=[];done=[];save(KEY_Q,questions);save(KEY_W,weak);save(KEY_D,done);renderManage()}};
+  $("clr").onclick=()=>{if(confirm("Delete ALL questions?")){questions=[];weak=[];done=[];save(KEY_Q,questions);save(KEY_W,weak);save(KEY_D,done);renderManage()}};
+  el.querySelectorAll("[data-del]").forEach(b=>b.onclick=()=>{
+    questions=questions.filter(q=>q.id!==b.dataset.del);weak=weak.filter(id=>id!==b.dataset.del);done=done.filter(id=>id!==b.dataset.del);
+    save(KEY_Q,questions);save(KEY_W,weak);save(KEY_D,done);renderManage();
+  });
+}
+
+show("home");
+</script>
+</body>
+</html>
